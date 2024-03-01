@@ -1,3 +1,30 @@
+* {
+    font-size: 18px;
+}
+
 #taskCard:hover {
     background-color: rgb(62, 161, 194);
+}
+
+#rmvBtn {
+    margin: 5px 5px 0px 0px;
+}
+
+#editBtn {
+    margin-top: 5px;
+}
+
+#editContainer {
+    margin: 5rem auto 0 auto;
+    width: 600px;
+}
+
+#editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#editTaskcontent {
+    min-height: 300px;
 }

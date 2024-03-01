@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PathConsts } from "../routes/routes";
+import { useGlobalState } from "../state/GlobalState";
 
 export type Task = {
     id: number;
@@ -13,8 +13,17 @@ const AddTask = () => {
     const [id, setId] = useState<number>(1);
     const [nameValue, setNameValue] = useState<string>('');
     const [contentValue, setContentValue] = useState<string>('');
+    const { setCurrentTask } = useGlobalState()
 
     const navigation = useNavigate()
+
+    const handleClick = (id: number) => {
+        const taskToEdit = tasks.find(task => task.id === id);
+        if (taskToEdit) {
+            setCurrentTask(taskToEdit);
+            navigation(`/edit_task/${id}`);
+        }
+    };
 
     const addTask = () => {
         const newTask = {id, nameValue, contentValue }; 
@@ -62,12 +71,12 @@ const AddTask = () => {
                         id="taskCard"
                         style={{border: "1px solid rgb(17, 167, 218)", borderRadius: 7, marginTop: 5, padding: 5}}
                         key={index}
-                        onClick={() => navigation(PathConsts.EDIT)}
                     >
                         <h2>{task.id}</h2>
                         <h2>{task.nameValue}</h2>
                         <div>{task.contentValue}</div>
-                        <button onClick={() => removeTask(task.id)}>Remove this task</button>
+                        <button id="rmvBtn" onClick={() => removeTask(task.id)}>Remove task</button>
+                        <button id="editBtn" onClick={() => handleClick(task.id)}>Edit task</button>
                     </div>
                 ))}
             </div>
