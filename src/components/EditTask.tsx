@@ -20,8 +20,8 @@ const EditTask = () => {
         }
     }, [id, currentTask, navigation]);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
         setTask(prev => {
             if (prev === null) return null; 
             return {
@@ -30,6 +30,7 @@ const EditTask = () => {
             } as Task; 
         });
     };
+    
 
     const handleSave = () => {
         setCurrentTask(task);

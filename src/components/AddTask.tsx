@@ -14,6 +14,7 @@ const AddTask = () => {
     const [nameValue, setNameValue] = useState<string>('');
     const [contentValue, setContentValue] = useState<string>('');
     const { setCurrentTask } = useGlobalState()
+    // const [localStorageItem, setLocalStorageItem] = useState<Partial<Task>>({})
 
     const navigation = useNavigate()
 
@@ -33,13 +34,19 @@ const AddTask = () => {
         setContentValue('');
     };
 
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+
     const removeTask = (taskId: number) => {
         setTasks(tasks.filter(task => task.id !== taskId));
+        localStorage.removeItem(JSON.stringify(taskId))
     }
 
     const removeAllTasks = () => {
-        setTasks([]);
+        setTasks([]);  
+        localStorage.clear()
     }
+
+    // const storage: string | null = localStorage.getItem('tasks')
 
     return (
         <div>
@@ -61,22 +68,21 @@ const AddTask = () => {
                     value={contentValue}
                     onChange={e => setContentValue(e.target.value)}
                 />
-                <button onClick={() => addTask()}>Add task</button>
-                <button onClick={() => removeAllTasks()}>Remove all tasks</button>
+                <button onClick={addTask}>Add task</button>
+                <button onClick={removeAllTasks}>Remove all tasks</button>
                 
             </div>
             <div>
-                {tasks.map((task, index) => (
+                {tasks.map((storage, index) => (
                     <div 
                         id="taskCard"
                         style={{border: "1px solid rgb(17, 167, 218)", borderRadius: 7, marginTop: 5, padding: 5}}
                         key={index}
                     >
-                        <h2>{task.id}</h2>
-                        <h2>{task.nameValue}</h2>
-                        <div>{task.contentValue}</div>
-                        <button id="rmvBtn" onClick={() => removeTask(task.id)}>Remove task</button>
-                        <button id="editBtn" onClick={() => handleClick(task.id)}>Edit task</button>
+                        <h2>{storage.nameValue}</h2>
+                        <div>{storage.contentValue}</div>
+                        <button id="rmvBtn" onClick={() => removeTask(storage.id)}>Remove task</button>
+                        <button id="editBtn" onClick={() => handleClick(storage.id)}>Edit task</button>
                     </div>
                 ))}
             </div>
